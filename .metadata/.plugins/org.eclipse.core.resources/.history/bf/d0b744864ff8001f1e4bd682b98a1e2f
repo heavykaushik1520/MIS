@@ -1,0 +1,15 @@
+package com.mis.services;
+
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.SubzoneRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class SubzoneService {
+	
+	private SubzoneRepository subzoneRepository;
+	
+	private ResponseWrapper responseWrapper;
+
+}

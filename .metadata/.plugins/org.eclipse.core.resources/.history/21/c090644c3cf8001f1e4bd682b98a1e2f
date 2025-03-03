@@ -1,0 +1,13 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.ChainsRepository;
+
+@Service
+public class ChainsService {
+
+	@Autowired
+	private ChainsRepository chainsRepository;
+}

@@ -1,0 +1,38 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.Subzone;
+import com.mis.repository.SubzoneRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class SubzoneService {
+	
+	@Autowired
+	private SubzoneRepository subzoneRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	public ResponseEntity<?> getAllSubzone(){
+		List<Subzone> subzones = subzoneRepository.findAll();
+		
+		if(subzones.isEmpty()) {
+			responseWrapper.setMessage("No Subzones found");
+			responseWrapper.setData(subzones);
+			return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+		}
+		
+		responseWrapper.setMessage("Subzones found");
+		responseWrapper.setData(subzones);
+		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+	}
+	
+
+}

@@ -1,0 +1,17 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.BrandRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class BrandService {
+	
+	@Autowired
+	private BrandRepository brandRepository;
+	
+	private ResponseWrapper responseWrapper;
+
+}

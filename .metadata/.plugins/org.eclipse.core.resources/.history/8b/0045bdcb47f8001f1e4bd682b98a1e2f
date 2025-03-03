@@ -1,0 +1,28 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.Brand;
+import com.mis.repository.BrandRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class BrandService {
+	
+	@Autowired
+	private BrandRepository brandRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	public ResponseEntity<?> getAllBrands(){
+		List<Brand> brands = brandRepository.findAll();
+		responseWrapper.setMessage("All Brand List");
+		responseWrapper.setData(brands);
+	}
+	
+
+}

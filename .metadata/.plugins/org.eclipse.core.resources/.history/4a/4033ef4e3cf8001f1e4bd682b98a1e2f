@@ -1,0 +1,16 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.ChainsRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class ChainsService {
+
+	@Autowired
+	private ChainsRepository chainsRepository;
+	
+	private ResponseWrapper responseWrapper;
+}

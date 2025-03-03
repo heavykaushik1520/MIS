@@ -1,0 +1,12 @@
+package com.mis.entity;
+
+import jakarta.persistence.Entity;
+import lombok.Data;
+
+@Entity
+@Data
+public class Subzone {
+	
+	private int id;
+	private String name;
+}

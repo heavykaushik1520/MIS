@@ -1,0 +1,5 @@
+package com.mis.repository;
+
+public interface BrandRepository {
+
+}

@@ -1,0 +1,24 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.UserInfo;
+import com.mis.repository.UserInfoRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class UserInfoService {
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+	
+	public void createUser(UserInfo userInfo) {
+		UserInfo savedUser = userInfoRepository.save(userInfo);
+		
+	}
+
+}

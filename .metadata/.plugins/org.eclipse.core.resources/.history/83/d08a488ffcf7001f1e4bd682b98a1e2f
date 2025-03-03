@@ -1,0 +1,11 @@
+package com.mis.entity;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Client {
+	
+	private int id;
+	private String name;
+
+}

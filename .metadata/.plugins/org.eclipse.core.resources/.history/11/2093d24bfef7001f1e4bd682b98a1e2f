@@ -1,0 +1,35 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.Client;
+import com.mis.repository.ClientRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class ClientService {
+	
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	public ResponseEntity<?> getAllClient(){
+		List<Client> allClient = clientRepository.findAll();
+		
+		if(allClient.isEmpty()) {
+			responseWrapper.setMessage("No Clients found");
+			responseWrapper.setData(null);
+		}
+		
+		responseWrapper.setMessage("All Clients found");
+		responseWrapper.setData(null);
+		
+		
+	}
+
+}

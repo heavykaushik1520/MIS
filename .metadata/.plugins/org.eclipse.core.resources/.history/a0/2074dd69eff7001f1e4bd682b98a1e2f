@@ -1,0 +1,8 @@
+package com.mis.responsewrapper;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ResponseWrapper {
+
+}

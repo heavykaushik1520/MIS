@@ -1,0 +1,20 @@
+package com.mis.services;
+
+import org.apache.catalina.filters.AddDefaultCharsetFilter.ResponseWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.ClientRepository;
+
+@Service
+public class ClientService {
+	
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	
+
+}

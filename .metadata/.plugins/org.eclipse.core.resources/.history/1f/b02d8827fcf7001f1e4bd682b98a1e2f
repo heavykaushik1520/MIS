@@ -1,0 +1,8 @@
+package com.mis.entity;
+
+import jakarta.persistence.Entity;
+
+@Entity
+public class Cilent {
+
+}

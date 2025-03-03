@@ -1,0 +1,7 @@
+package com.mis.enums;
+
+public enum Status {
+
+	ADMIN ,
+	USER
+}

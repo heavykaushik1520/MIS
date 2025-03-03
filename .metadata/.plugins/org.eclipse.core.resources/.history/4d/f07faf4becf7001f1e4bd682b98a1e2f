@@ -1,0 +1,19 @@
+package com.mis.entity;
+
+import com.mis.enums.Role;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+@Entity
+public class UserInfo {
+
+	private int id;
+	private String name;
+	private String email;
+	private String password;
+	
+	@Enumerated(EnumType.STRING)
+	private Role role;
+}

@@ -1,0 +1,19 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.SubzoneRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class SubzoneService {
+	
+	@Autowired
+	private SubzoneRepository subzoneRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+
+}

@@ -1,0 +1,19 @@
+package com.mis.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.repository.GroupRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class GroupService {
+
+	@Autowired
+	private GroupRepository groupRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	
+}

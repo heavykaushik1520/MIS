@@ -1,0 +1,72 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.mis.entity.Subzone;
+import com.mis.repository.SubzoneRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class SubzoneService {
+
+	@Autowired
+	private SubzoneRepository subzoneRepository;
+
+	@Autowired
+	private ResponseWrapper responseWrapper;
+
+	public ResponseEntity<?> getAllSubzone() {
+		List<Subzone> subzones = subzoneRepository.findAll();
+
+		if (subzones.isEmpty()) {
+			responseWrapper.setMessage("No Subzones found");
+			responseWrapper.setData(null);
+			return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+		}
+
+		responseWrapper.setMessage("Subzones found");
+		responseWrapper.setData(subzones);
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> createSubzone(Subzone subzone) {
+		Subzone createdSubzone = subzoneRepository.save(subzone);
+		responseWrapper.setMessage("subzone created successfully");
+		responseWrapper.setData(createdSubzone);
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+
+	}
+
+	public ResponseEntity<?> getSubzoneById(int id) {
+		Subzone subzoneFound = subzoneRepository.findById(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No subzone found with id " + id);
+		});
+
+		responseWrapper.setMessage("Subzone found with id " + id);
+		responseWrapper.setData(subzoneFound);
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> updateSubzoneById(int id, Subzone updatedSubzone) {
+		Subzone subzoneFound = subzoneRepository.findById(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No subzone found with id " + id);
+		});
+
+		subzoneFound.setName(updatedSubzone.getName());
+
+		Subzone subzone = subzoneRepository.save(subzoneFound);
+
+		responseWrapper.setMessage("Subzone created successfully");
+		responseWrapper.setData(subzone);
+
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+
+}

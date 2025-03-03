@@ -1,0 +1,32 @@
+package com.mis.services;
+
+import java.net.http.HttpClient;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.UserInfo;
+import com.mis.repository.UserInfoRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class UserInfoService {
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+	
+	public ResponseEntity<?> createUser(UserInfo userInfo) {
+		UserInfo savedUser = userInfoRepository.save(userInfo);
+		responseWrapper.setMessage("User Created Successfully");
+		responseWrapper.setData(savedUser);
+		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+	}
+	
+	
+
+}
