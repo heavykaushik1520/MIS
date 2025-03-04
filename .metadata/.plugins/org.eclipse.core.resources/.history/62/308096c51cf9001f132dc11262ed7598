@@ -1,0 +1,71 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.mis.entity.UserInfo;
+import com.mis.repository.UserInfoRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class UserInfoService {
+
+	@Autowired
+	private ResponseWrapper responseWrapper;
+
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+
+	public ResponseEntity<?> createUser(UserInfo userInfo) {
+		UserInfo savedUser = userInfoRepository.save(userInfo);
+		responseWrapper.setMessage("User Created Successfully");
+		responseWrapper.setData(savedUser);
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getUserById(int id) {
+		UserInfo foundUser = userInfoRepository.findById(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
+
+		});
+		responseWrapper.setMessage("User found");
+		responseWrapper.setData(foundUser);
+		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> updateUserById(int id , UserInfo updatedUser){
+		UserInfo foundUser = userInfoRepository.findById(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
+
+		});
+		
+		foundUser.setFullName(updatedUser.getFullName());
+		foundUser.setEmail(updatedUser.getEmail());
+		foundUser.setPasswordHash(updatedUser.getPasswordHash());
+		
+		UserInfo user = userInfoRepository.save(foundUser);
+		responseWrapper.setMessage("User updated successfully");
+		responseWrapper.setData(user);
+		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> getAllUser(){
+		List<UserInfo> users = userInfoRepository.findAll();
+		
+		if(users.isEmpty()) {
+			responseWrapper.setMessage("No Users Found");
+			responseWrapper.setData(null);
+		}
+		responseWrapper.setMessage("All Users");
+		responseWrapper.setData(users);
+		
+		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+	}
+	
+	//delete method not yet developed
+}

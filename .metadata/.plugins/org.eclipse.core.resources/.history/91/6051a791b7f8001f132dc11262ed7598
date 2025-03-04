@@ -1,0 +1,5 @@
+package com.mis.configuration;
+
+public class SecurityConfiguration {
+
+}

@@ -1,0 +1,14 @@
+package com.mis.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mis.services.UserInfoService;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserInfoController {
+	
+	public UserInfoService userInfoService;
+
+}
