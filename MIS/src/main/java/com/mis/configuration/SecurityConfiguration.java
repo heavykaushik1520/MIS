@@ -28,6 +28,7 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 	    return httpSecurity
 	            .csrf(csrf -> csrf.disable())
+	            .cors(cors -> cors.disable())
 	            .authorizeHttpRequests(auth -> {
 	                auth.requestMatchers("/api/auth/**", "/home", "/register").permitAll();
 	                auth.requestMatchers("/admin/**").hasRole("ADMIN");

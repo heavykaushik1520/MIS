@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mis.entity.UserInfo;
@@ -17,6 +18,9 @@ public class LoginService implements UserDetailsService {
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -26,8 +30,9 @@ public class LoginService implements UserDetailsService {
 	        UserInfo userInfoObject = user.get();
 	        return User.builder()
 	                .username(userInfoObject.getEmail())
-	                .password(userInfoObject.getPasswordHash()) // Ensure this is encoded
+	                .password(userInfoObject.getPasswordHash()) 
 	                .roles(userInfoObject.getRole())
+	                .passwordEncoder(passwordEncoder::encode)
 	                .build();
 	    } else {
 	        throw new UsernameNotFoundException(email + " does not exist");

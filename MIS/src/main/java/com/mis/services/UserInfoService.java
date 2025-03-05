@@ -1,6 +1,7 @@
 package com.mis.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,15 @@ public class UserInfoService {
 		responseWrapper.setData(savedUser);
 		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
 	}
+	
+	
+
+//	public ResponseEntity<?> createUser(UserInfo userInfo) {
+//	    userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash())); // Encode password
+//	    userInfoRepository.save(userInfo);
+//	    return ResponseEntity.ok(Map.of("message", "User Created Successfully"));
+//	}
+
 
 	public ResponseEntity<?> getUserById(int id) {
 		UserInfo foundUser = userInfoRepository.findById(id).orElseThrow(() -> {

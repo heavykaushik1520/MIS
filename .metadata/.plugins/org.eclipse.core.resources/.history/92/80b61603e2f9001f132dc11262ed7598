@@ -1,0 +1,39 @@
+package com.mis.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.UserInfo;
+import com.mis.repository.UserInfoRepository;
+
+@Service
+public class LoginService implements UserDetailsService {
+
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	    Optional<UserInfo> user = userInfoRepository.findByEmail(email);
+
+	    if (user.isPresent()) {
+	        UserInfo userInfoObject = user.get();
+	        return User.builder()
+	                .username(userInfoObject.getEmail())
+	                .password(userInfoObject.getPasswordHash()) // Ensure this is encoded
+	                .roles(userInfoObject.getRole())
+	                .build();
+	    } else {
+	        throw new UsernameNotFoundException(email + " does not exist");
+	    }
+	}
+
+	
+	
+}
