@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 	                auth.requestMatchers("/sales-person/**").hasRole("SALES_PERSON");
 	                auth.anyRequest().authenticated();
 	            })
-	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session, for API-based auth
+	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
 	            .authenticationProvider(authenticationProvider())
 	            .build();
 	}
