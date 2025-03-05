@@ -32,7 +32,7 @@ public class LoginService implements UserDetailsService {
 	                .username(userInfoObject.getEmail())
 	                .password(userInfoObject.getPasswordHash()) 
 	                .roles(userInfoObject.getRole())
-	                .passwordEncoder(passwordEncoder::encode)
+//	                .passwordEncoder(passwordEncoder::encode)
 	                .build();
 	    } else {
 	        throw new UsernameNotFoundException(email + " does not exist");

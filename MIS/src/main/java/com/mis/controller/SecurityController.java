@@ -1,6 +1,7 @@
 package com.mis.controller;
 
-import java.util.Map;
+import com.mis.repository.UserInfoRepository;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.mis.entity.UserInfo;
 import com.mis.services.UserInfoService;
@@ -24,35 +26,70 @@ import com.mis.services.UserInfoService;
 @CrossOrigin("*")
 public class SecurityController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserInfoService userInfoService;
+	@Autowired
+	private UserInfoService userInfoService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPasswordHash())
-            );
-            
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            
-            return ResponseEntity.ok(Map.of("message", "Login successful", "email", loginRequest.getEmail()));
-            
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
-        }
-    }
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPasswordHash())
+//            );
+//            
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            
+//            return ResponseEntity.ok(Map.of("message", "Login successful", "email", loginRequest.getEmail()));
+//            
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+//        }
+//    }
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
+	    try {
+	        // Find the user in the database
+	        Optional<UserInfo> userOptional = userInfoRepository.findByEmail(loginRequest.getEmail());
+	        if (userOptional.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+	        }
+
+	        UserInfo user = userOptional.get();
+
+	        // Compare raw password with hashed password
+	        if (!passwordEncoder.matches(loginRequest.getPasswordHash(), user.getPasswordHash())) {
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+	        }
+
+	        // Authenticate the user in Spring Security
+	        Authentication authentication = authenticationManager.authenticate(
+	                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPasswordHash())
+	        );
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+	        return ResponseEntity.ok(Map.of("message", "Login successful", "email", user.getEmail()));
+
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+	    }
+	}
 
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserInfo userInfo) {
-        return userInfoService.createUser(userInfo);
-    }
-    
-    @GetMapping("/get-users")
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@RequestBody UserInfo userInfo) {
+		return userInfoService.createUser(userInfo);
+	}
+
+	@GetMapping("/get-users")
 	public ResponseEntity<?> getAllUsers() {
 		return userInfoService.getAllUser();
 	}
