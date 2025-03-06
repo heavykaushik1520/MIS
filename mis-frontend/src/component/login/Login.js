@@ -22,6 +22,11 @@ export default function Login() {
         setError("")
         console.log(credentials)
 
+        // const loginData = {
+        //     email: credentials.email,
+        //     password: credentials.passwordHash // Change key name to 'password'
+        // };
+
         try{
             const response = await fetch("http://localhost:8080/api/auth/login",{
                 method : 'POST',
@@ -36,7 +41,7 @@ export default function Login() {
             if(response.ok){
                 alert(result.message)
                 localStorage.setItem("userEmail", result.email);
-                navigate("/dashboard") //protected route rakhna h kaushik
+                
             }else{
                 setError(result.error);
             }

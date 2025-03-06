@@ -1,7 +1,7 @@
 package com.mis.services;
 
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,21 +26,38 @@ public class UserInfoService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public ResponseEntity<?> createUser(UserInfo userInfo) {
-		userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash()));
-		UserInfo savedUser = userInfoRepository.save(userInfo);
-		responseWrapper.setMessage("User Created Successfully");
-		responseWrapper.setData(savedUser);
-		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
-	}
-	
-	
-
 //	public ResponseEntity<?> createUser(UserInfo userInfo) {
-//	    userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash())); // Encode password
-//	    userInfoRepository.save(userInfo);
-//	    return ResponseEntity.ok(Map.of("message", "User Created Successfully"));
+//		userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash()));
+//		UserInfo savedUser = userInfoRepository.save(userInfo);
+//		responseWrapper.setMessage("User Created Successfully");
+//		responseWrapper.setData(savedUser);
+//		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
 //	}
+	
+	public ResponseEntity<?> createUser(UserInfo userInfo) {
+	   
+	    Optional<UserInfo> existingUser = userInfoRepository.findByEmail(userInfo.getEmail());
+	    if (existingUser.isPresent()) {
+	        responseWrapper.setMessage("Email already registered!");
+	        responseWrapper.setData(null);
+	        return new ResponseEntity<>(responseWrapper, HttpStatus.BAD_REQUEST);
+	    }
+
+	    System.out.println("Raw Password: " + userInfo.getPasswordHash()); // Print raw password
+	    String encodedPassword = passwordEncoder.encode(userInfo.getPasswordHash());
+	    System.out.println("Encoded Password: " + encodedPassword); // Print encoded password
+
+	    userInfo.setPasswordHash(encodedPassword);
+	    UserInfo savedUser = userInfoRepository.save(userInfo);
+
+	 
+	    responseWrapper.setMessage("User Created Successfully");
+	    responseWrapper.setData(savedUser);
+	    return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+	}
+
+
+
 
 
 	public ResponseEntity<?> getUserById(int id) {

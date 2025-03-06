@@ -10,6 +10,7 @@ export default function Register() {
   });
 
   const handleChange = (e) => {
+    console.log(`Updating ${e.target.name} = ${e.target.value}`); 
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -47,7 +48,7 @@ export default function Register() {
         ></input>
         <input
           type="password"
-          name="password"
+          name="passwordHash"
           placeholder="Password"
           onChange={handleChange}
         ></input>
