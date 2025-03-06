@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../index.css"
+import "../../index.css";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
@@ -50,14 +50,18 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-700">Login</h2>
-        
+        <h2 className="text-2xl font-semibold text-center text-gray-700">
+          Login
+        </h2>
+
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}
 
         <form className="mt-4" onSubmit={handleSubmit}>
           {/* Email Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-600">Email</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -70,7 +74,9 @@ export default function Login() {
 
           {/* Password Input */}
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-600">Password</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Password
+            </label>
             <input
               type="password"
               name="passwordHash"
@@ -80,6 +86,15 @@ export default function Login() {
               required
             />
           </div>
+
+          <p className="mt-4 text-sm text-center text-gray-600">
+            <a
+              href="/forgot-password"
+              className="text-blue-500 hover:underline"
+            >
+              Forgot Password
+            </a>
+          </p>
 
           {/* Submit Button */}
           <button
@@ -92,7 +107,10 @@ export default function Login() {
 
         {/* Signup Link */}
         <p className="mt-4 text-sm text-center text-gray-600">
-          Don't have an account? <a href="/register" className="text-blue-500 hover:underline">Sign Up</a>
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-500 hover:underline">
+            Sign Up
+          </a>
         </p>
       </div>
     </div>

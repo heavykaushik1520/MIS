@@ -1,0 +1,53 @@
+package com.mis.services;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.UserInfo;
+import com.mis.repository.UserInfoRepository;
+
+
+@Service
+public class ForgotPasswordService {
+	
+	@Autowired
+	private UserInfoRepository userInfoRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	private String sendResetPasswordEmail(String email) {
+		Optional<UserInfo> userOptional = userInfoRepository.findByEmail(email);
+		
+		if(!userOptional.isPresent()) {
+			return "User With this email does not exist";
+		}
+		
+		UserInfo user = userOptional.get();
+		String tempPassword = generateTemporaryPassword();
+		user.setPasswordHash(passwordEncoder.encode(tempPassword));
+        userInfoRepository.save(user);
+        
+        sendResetEmail(user.getEmail(), tempPassword);
+        return "Temporary password sent to your email.";
+	}
+
+	private String sendResetEmail(String email, String tempPassword) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	private String generateTemporaryPassword() {
+		// TODO Auto-generated method stub
+		return UUID.randomUUID().toString().substring(0, 8);
+	}
+}
