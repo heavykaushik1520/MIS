@@ -1,5 +1,7 @@
 package com.mis.entity;
 
+import java.time.Instant;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,12 +11,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "user_group")
+@Table(name="groupp")
 public class Group {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private int groupId;
 	
 	
-	private String name;
+	private String groupName;
+	private boolean isActive;
+	
+	private Instant createdAt;
+	private Instant updatedAt;
 }

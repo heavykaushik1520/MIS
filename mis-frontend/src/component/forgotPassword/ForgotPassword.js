@@ -1,4 +1,5 @@
 import React, {  useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -59,9 +60,9 @@ export default function ForgotPassword() {
 
         <p className="mt-4 text-sm text-center text-gray-600">
           Remembered your password?{" "}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <Link to="/login" className="text-blue-500 hover:underline">
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>
