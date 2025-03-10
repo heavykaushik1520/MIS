@@ -24,16 +24,9 @@ public class UserInfoService {
 	private UserInfoRepository userInfoRepository;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder; 
 
-//	public ResponseEntity<?> createUser(UserInfo userInfo) {
-//		userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash()));
-//		UserInfo savedUser = userInfoRepository.save(userInfo);
-//		responseWrapper.setMessage("User Created Successfully");
-//		responseWrapper.setData(savedUser);
-//		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
-//	}
-	
+
 	public ResponseEntity<?> createUser(UserInfo userInfo) {
 	   
 	    Optional<UserInfo> existingUser = userInfoRepository.findByEmail(userInfo.getEmail());

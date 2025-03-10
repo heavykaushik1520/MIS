@@ -58,7 +58,7 @@ public class GroupService {
 		Group foundGroup = groupRepository.findById(id).orElseThrow(()->{
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND , "No group found with id "+id);
 		});
-		foundGroup.setName(updatedGroup.getName());
+		foundGroup.setGroupName(updatedGroup.getGroupName());
 		Group group = groupRepository.save(foundGroup);
 		
 		responseWrapper.setMessage("Group Updated ");

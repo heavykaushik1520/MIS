@@ -1,3 +1,4 @@
+
 package com.mis.controller;
 
 import com.mis.repository.UserInfoRepository;
@@ -12,14 +13,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.mis.entity.Group;
 import com.mis.entity.UserInfo;
+import com.mis.services.GroupService;
 import com.mis.services.UserInfoService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,6 +44,9 @@ public class SecurityController {
 	
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	
+	@Autowired
+	private GroupService groupService;
 
 //    @PostMapping("/login")
 //    public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
@@ -93,4 +103,26 @@ public class SecurityController {
 	public ResponseEntity<?> getAllUsers() {
 		return userInfoService.getAllUser();
 	}
+//	
+//	@PostMapping("/group/create")
+//	public ResponseEntity<?> createGroup(@RequestBody @Valid Group group){
+//		return groupService.createGroup(group);
+//	}
+	
+	@GetMapping("/group/all")
+	public ResponseEntity<?> getAllGroups(){
+		return groupService.getAllGroups();
+	}
+	
+	@GetMapping("/group/{id}")
+	public ResponseEntity<?> getGroupById(@PathVariable int id){
+		return groupService.getGroupById(id);
+	}
+	
+	@PutMapping("/group/{id}")
+	public ResponseEntity<?> updateGroupById(@PathVariable int id ,@RequestBody @Valid Group updatedGroup){
+		return groupService.updateGroupById(id, updatedGroup);
+	}
+	
+	
 }
