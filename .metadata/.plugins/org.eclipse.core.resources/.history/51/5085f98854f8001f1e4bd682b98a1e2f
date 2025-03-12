@@ -1,7 +1,0 @@
-package com.mis.enums;
-
-public enum Status {
-
-	AC,
-	USER
-}

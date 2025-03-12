@@ -1,7 +1,0 @@
-package com.mis.enums;
-
-public enum Role {
-
-	ADMIN ,
-	USER
-}

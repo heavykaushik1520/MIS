@@ -28,12 +28,12 @@ public class UserInfo {
 	private String fullName;
 	
 	@Column(nullable= false , unique = true)
-	@NotBlank(message = "name is mandatory")
+	@NotBlank(message = "email is mandatory")
 	@Email
 	private String email;
 	
 	@Column(nullable= false )
-	@NotBlank(message = "email is mandatory")
+	@NotBlank(message = "password is mandatory")
 	private String passwordHash;
 	
 	@Column(nullable= false )

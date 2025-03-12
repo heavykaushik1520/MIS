@@ -6,6 +6,9 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,7 +18,7 @@ import com.mis.repository.UserInfoRepository;
 import com.mis.responsewrapper.ResponseWrapper;
 
 @Service
-public class UserInfoService {
+public class UserInfoService implements UserDetailsService {
 
 	@Autowired
 	private ResponseWrapper responseWrapper;
@@ -25,9 +28,16 @@ public class UserInfoService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder; 
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<UserInfo> userDetail = userInfoRepository.findByEmail(username);
+		return userDetail.map(UserInfoDetails::new)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+	}
 
 
-	public ResponseEntity<?> createUser(UserInfo userInfo) {
+	/*public ResponseEntity<?> createUser(UserInfo userInfo) {
 	   
 	    Optional<UserInfo> existingUser = userInfoRepository.findByEmail(userInfo.getEmail());
 	    if (existingUser.isPresent()) {
@@ -47,50 +57,19 @@ public class UserInfoService {
 	    responseWrapper.setMessage("User Created Successfully");
 	    responseWrapper.setData(savedUser);
 	    return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
-	}
-
-
-
-
-
-	public ResponseEntity<?> getUserById(int id) {
-		UserInfo foundUser = userInfoRepository.findById(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
-
-		});
-		responseWrapper.setMessage("User found");
-		responseWrapper.setData(foundUser);
-		return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
-	}
+	}*/
 	
-	public ResponseEntity<?> updateUserById(int id , UserInfo updatedUser){
-		UserInfo foundUser = userInfoRepository.findById(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found with id " + id);
+	public String addUser(UserInfo userInfo) {
+		userInfo.setPasswordHash(passwordEncoder.encode(userInfo.getPasswordHash()));
+		userInfoRepository.save(userInfo);
+		return "User added successfully";
+	}
 
-		});
-		
-		foundUser.setFullName(updatedUser.getFullName());
-		foundUser.setEmail(updatedUser.getEmail());
-		foundUser.setPasswordHash(updatedUser.getPasswordHash());
-		
-		UserInfo user = userInfoRepository.save(foundUser);
-		responseWrapper.setMessage("User updated successfully");
-		responseWrapper.setData(user);
-		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
-	}
+
+
+
+
 	
-	public ResponseEntity<?> getAllUser(){
-		List<UserInfo> users = userInfoRepository.findAll();
-		
-		if(users.isEmpty()) {
-			responseWrapper.setMessage("No Users Found");
-			responseWrapper.setData(null);
-		}
-		responseWrapper.setMessage("All Users");
-		responseWrapper.setData(users);
-		
-		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
-	}
 	
 	//delete method not yet developed
 }

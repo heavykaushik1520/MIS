@@ -2,34 +2,34 @@
 package com.mis.controller;
 
 import com.mis.repository.UserInfoRepository;
+
+	
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.mis.entity.Group;
+import com.mis.entity.AuthRequest;
 import com.mis.entity.UserInfo;
-import com.mis.services.GroupService;
+import com.mis.services.JwtService;
+import com.mis.services.TokenBlacklistService;
 import com.mis.services.UserInfoService;
 
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @CrossOrigin("*")
 public class SecurityController {
 
@@ -45,8 +45,17 @@ public class SecurityController {
 	@Autowired
 	private UserInfoRepository userInfoRepository;
 	
+	
+	
+	
+
 	@Autowired
-	private GroupService groupService;
+	private JwtService jwtService;
+
+	
+	
+	@Autowired
+	private TokenBlacklistService tokenBlacklistService;
 
 //    @PostMapping("/login")
 //    public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
@@ -63,66 +72,58 @@ public class SecurityController {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
 //        }
 //    }
+	
+	@GetMapping("/welcome")
+	public String welcome() {
+		return "Welcome this endpoint is not secure";
+	}
 
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody UserInfo loginRequest) {
-	    try {
-	        // Find the user in the database
-	        Optional<UserInfo> userOptional = userInfoRepository.findByEmail(loginRequest.getEmail());
-	        if (userOptional.isEmpty()) {
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
-	        }
+	//login method
+	@PostMapping("/generateToken")
+	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+		if (authentication.isAuthenticated()) {
+//			return jwtService.generateToken(authRequest.getUsername());
+			String token = jwtService.generateToken(authRequest.getUsername());
+	        System.out.println("Generated Token: " + token); // ✅ Add this for debugging
+	        return token;
+		} else {
+			throw new UsernameNotFoundException("Invalid user request!");
+		}
+	}
 
-	        UserInfo user = userOptional.get();
 
-	        // Compare raw password with hashed password
-	        if (!passwordEncoder.matches(loginRequest.getPasswordHash(), user.getPasswordHash())) {
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
-	        }
+	@PostMapping("/addNewUser")
+	public String addNewUser(@RequestBody UserInfo user) {
+		return userInfoService.addUser(user);
+	}
+	
+	@PostMapping("/logout")
+	public String logout(HttpServletRequest request) {
+	    String authHeader = request.getHeader("Authorization");
 
-	        // Authenticate the user in Spring Security
-	        Authentication authentication = authenticationManager.authenticate(
-	                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPasswordHash())
-	        );
-	        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-	        return ResponseEntity.ok(Map.of("message", "Login successful", "email", user.getEmail()));
-
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
+	    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+	        String token = authHeader.substring(7);
+	        tokenBlacklistService.blacklistToken(token);  // Add token to blacklist
+	        return "Logged out successfully!";
+	    } else {
+	        return "Token not found!";
 	    }
 	}
-
-
-	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody UserInfo userInfo) {
-		return userInfoService.createUser(userInfo);
-	}
-
-	@GetMapping("/get-users")
-	public ResponseEntity<?> getAllUsers() {
-		return userInfoService.getAllUser();
-	}
-//	
-//	@PostMapping("/group/create")
-//	public ResponseEntity<?> createGroup(@RequestBody @Valid Group group){
-//		return groupService.createGroup(group);
-//	}
 	
-	@GetMapping("/group/all")
-	public ResponseEntity<?> getAllGroups(){
-		return groupService.getAllGroups();
+	@GetMapping("/user/userProfile")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
+	public String userProfile() {
+		return "Welcome to User Profile";
+	}
+
+	@GetMapping("/admin/adminProfile")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public String adminProfile() {
+		return "Welcome to Admin Profile";
 	}
 	
-	@GetMapping("/group/{id}")
-	public ResponseEntity<?> getGroupById(@PathVariable int id){
-		return groupService.getGroupById(id);
-	}
-	
-	@PutMapping("/group/{id}")
-	public ResponseEntity<?> updateGroupById(@PathVariable int id ,@RequestBody @Valid Group updatedGroup){
-		return groupService.updateGroupById(id, updatedGroup);
-	}
 	
 	
 }
