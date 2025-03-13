@@ -1,0 +1,44 @@
+package com.mis.controller;
+
+import com.mis.entity.Group;
+import com.mis.services.GroupService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+
+@RequestMapping("/api/groups")
+@RestController
+@CrossOrigin("*")
+public class GroupController {
+
+	@Autowired
+	private GroupService groupService;
+	
+	@PostMapping("/admin/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> createGroup(@RequestBody @Valid Group group) {
+        return groupService.createGroup(group);
+    }
+	
+	@PutMapping("/admin/update/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> updateGroup(@PathVariable int id, @RequestBody Group group) {
+        return groupService.updateGroupById(id, group);
+    }
+	
+	@GetMapping("/all")
+    public ResponseEntity<?> getAllGroups() {
+        return groupService.getAllGroups();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getGroupById(@PathVariable int id) {
+        return groupService.getGroupById(id);
+    }
+
+}

@@ -1,0 +1,69 @@
+package com.mis.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.mis.entity.Group;
+import com.mis.repository.GroupRepository;
+import com.mis.responsewrapper.ResponseWrapper;
+
+@Service
+public class GroupService {
+	
+	@Autowired
+	private GroupRepository groupRepository;
+	
+	@Autowired
+	private ResponseWrapper responseWrapper;
+	
+	public ResponseEntity<?> createGroup(Group group){
+		Group createdGroup = groupRepository.save(group);
+		responseWrapper.setMessage("Group Created Successfully");
+		responseWrapper.setData(createdGroup);
+		return new ResponseEntity<>(responseWrapper , HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> getAllGroups() {
+        List<Group> groups = groupRepository.findAll();
+        responseWrapper.setMessage("Groups Retrieved Successfully");
+        responseWrapper.setData(groups);
+        return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+    }
+	
+	public ResponseEntity<?> getGroupById(int id) {
+        Optional<Group> optionalGroup = groupRepository.findById(id);
+        if (optionalGroup.isPresent()) {
+            Group group = optionalGroup.get();
+            responseWrapper.setMessage("Group Retrieved Successfully");
+            responseWrapper.setData(group);
+            return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+        } else {
+            responseWrapper.setMessage("Group not found with id: " + id);
+            responseWrapper.setData(null);
+            return new ResponseEntity<>(responseWrapper, HttpStatus.NOT_FOUND);
+        }
+    }
+	
+	public ResponseEntity<?> updateGroupById(int id, Group updatedGroup) {
+        Optional<Group> optionalGroup = groupRepository.findById(id);
+        if (optionalGroup.isPresent()) {
+            Group existingGroup = optionalGroup.get();
+            // Update the existingGroup with the values from updatedGroup
+            existingGroup.setGroupName(updatedGroup.getGroupName());
+            // Add other fields you want to update.
+            Group savedGroup = groupRepository.save(existingGroup);
+            responseWrapper.setMessage("Group Updated Successfully");
+            responseWrapper.setData(savedGroup);
+            return new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+        } else {
+            responseWrapper.setMessage("Group not found with id: " + id);
+            responseWrapper.setData(null);
+            return new ResponseEntity<>(responseWrapper, HttpStatus.NOT_FOUND);
+        }
+    }
+}

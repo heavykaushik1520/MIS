@@ -1,0 +1,5 @@
+package com.mis.entity;
+
+public class Group {
+
+}

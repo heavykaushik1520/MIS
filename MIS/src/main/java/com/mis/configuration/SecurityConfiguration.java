@@ -50,8 +50,10 @@ public class SecurityConfiguration {
 //                        .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken").permitAll()
 						.requestMatchers(HttpMethod.POST, "/auth/generateToken", "/auth/logout").permitAll()
 						.requestMatchers("/auth/welcome", "/auth/addNewUser").permitAll()
-						.requestMatchers("/auth/user/**").hasAuthority("ROLE_USER").requestMatchers("/auth/admin/**")
-						.hasAuthority("ROLE_ADMIN").anyRequest().authenticated())
+						.requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
+						.requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
+						.requestMatchers("/api/groups/**").authenticated()  // added for groups
+						.anyRequest().authenticated())
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
