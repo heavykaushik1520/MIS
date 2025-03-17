@@ -24,15 +24,17 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/user-profile" element={<UserProfile />} />
-      <Route path="/admin-profile" element={isAdmin() ? <AdminProfile /> : <Navigate to="/forbidden" />} />
+      <Route
+        path="/admin-profile"
+        element={isAdmin() ? <AdminProfile /> : <Navigate to="/forbidden" />}
+      />
       <Route path="/forbidden" element={<Forbidden />} />
 
-       {/* Group Management Routes */}
-       <Route path='/groups' element = {<GroupList/>} />
-       <Route path='/groups/:id' element={<GroupDetails/>}/>
-       <Route path="/groups/admin/create" element={isAdmin() ? <GroupCreate /> : <Navigate to="/forbidden" />} />
-       <Route path="/groups/admin/update/:groupId" element={isAdmin() ? <GroupUpdate /> : <Navigate to="/forbidden" />} />
-
+      {/* Group Management Routes */}
+      <Route path="/groups" element={<GroupList />} />
+      <Route path="/groups/:id" element={<GroupDetails />} />
+      <Route path="/groups/admin/create" element={<GroupCreate />} />
+      <Route path="/groups/admin/update/:groupId" element={<GroupUpdate />} />
     </Routes>
   </Router>
 );

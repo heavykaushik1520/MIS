@@ -1,8 +1,10 @@
 import React from 'react';
 import './index.css'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Logout() {
+    const navigate = useNavigate();
     const handleLogout = async () => {
         const response = await fetch('http://localhost:8080/auth/logout', {
             method: 'POST',
@@ -14,6 +16,8 @@ export default function Logout() {
         const result = await response.text();
         alert(result);
         localStorage.removeItem('token');
+        navigate("/login");
+
     };
 
     return (

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './index.css'
 
 
 export default function Login() {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -20,6 +22,7 @@ export default function Login() {
         const token = await response.text();
         localStorage.setItem('token', token);
         alert('Login Successful! Token stored.');
+        navigate('/')
     };
 
     return (
