@@ -53,6 +53,12 @@ public class SecurityConfiguration {
 						.requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
 						.requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
 						.requestMatchers("/api/groups/**").authenticated()  // added for groups
+						 // Admin Only Routes for Chain Operations
+			            .requestMatchers(HttpMethod.POST, "/api/chains/admin/create").hasAuthority("ROLE_ADMIN")
+			            .requestMatchers(HttpMethod.PUT, "/api/chains/admin/update/**").hasAuthority("ROLE_ADMIN")
+			            .requestMatchers(HttpMethod.DELETE, "/api/chains/admin/delete/**").hasAuthority("ROLE_ADMIN")
+						  // Common Routes for Admin and Users
+			            .requestMatchers(HttpMethod.GET, "/api/chains/all", "/api/chains/**").authenticated()
 						.anyRequest().authenticated())
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
