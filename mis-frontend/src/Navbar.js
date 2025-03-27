@@ -47,6 +47,22 @@ export default function Navbar() {
                 </ul>
             </div>
 
+            {/* Chain Operations Dropdown */}
+            <div className="dropdown dropdown-hover">
+                <label tabIndex={0} className="btn btn-outline btn-warning m-1">
+                    Chain Operations
+                </label>
+                <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                    <li><Link to="/chains">View All Chains</Link></li>
+                    <li><Link to="/chains/admin/create">Create Chain</Link></li>
+                    <li><Link to="/chains/admin/update/:chainId">Update Chain</Link></li>
+                    <li><Link to="/chains/details">Chain Details</Link></li>
+                </ul>
+            </div>
+
             <Link to="/login" className="btn btn-outline btn-success">Login</Link>
             <Link to="/logout" className="btn btn-soft">Logout</Link>
             <Link to="/user-profile" className="btn btn-outline btn-info">User Profile</Link>

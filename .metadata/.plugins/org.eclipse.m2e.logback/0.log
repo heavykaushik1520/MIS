@@ -2025,3 +2025,4 @@
 2025-03-20 18:10:04,491 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-03-20 18:10:04,571 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2025-03-20 18:10:04,598 [Worker-64: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\IT VEDANT\INTERNSHIP\internship\MIS\src\test\resources
+2025-03-21 09:26:07,912 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.

@@ -13,6 +13,10 @@ import GroupList from './groupComponents/GroupList';
 import GroupDetails from './groupComponents/GroupDetails';
 import GroupCreate from './groupComponents/GroupCreate';
 import GroupUpdate from "./groupComponents/GroupUpdate";
+import ChainList from './chainComponent/ChainList';
+import ChainDetails from './chainComponent/ChainDetails';
+import CreateChain from './chainComponent/CreateChain';
+import UpdateChain from './chainComponent/UpdateChain';
 
 
 
@@ -29,12 +33,17 @@ root.render(
         element={isAdmin() ? <AdminProfile /> : <Navigate to="/forbidden" />}
       />
       <Route path="/forbidden" element={<Forbidden />} />
-
       {/* Group Management Routes */}
       <Route path="/groups" element={<GroupList />} />
       <Route path="/groups/:id" element={<GroupDetails />} />
       <Route path="/groups/admin/create" element={<GroupCreate />} />
       <Route path="/groups/admin/update/:groupId" element={<GroupUpdate />} />
+
+      {/* Chain Management Routes */}
+      <Route path="/chains" element={<ChainList />} />
+      <Route path="/chains/:id" element={<ChainDetails />} />
+      <Route path="/chains/admin/create" element={<CreateChain/>} />
+      <Route path="/chains/admin/update/:chainId" element={<UpdateChain/>} />
     </Routes>
   </Router>
 );

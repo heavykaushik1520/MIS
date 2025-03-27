@@ -1,17 +1,20 @@
 package com.mis.entity;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -42,5 +45,8 @@ public class Chain {
 
     @LastModifiedDate
     private Instant updatedAt;
+    
+    @OneToMany(mappedBy = "chain")
+    private List<Brand> brands;
 
 }

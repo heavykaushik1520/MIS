@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateChain() {
   const [chain, setChain] = useState({
@@ -6,6 +7,8 @@ export default function CreateChain() {
     gstnNo: "",
     isActive: true,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +66,15 @@ export default function CreateChain() {
             <button onClick={createChain} className="btn btn-primary w-full">
                 Create Chain
             </button>
+
+            <div className="flex justify-center mt-6">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+        >
+          Main Page
+        </button>
+      </div>
       </div>
     </>
   );

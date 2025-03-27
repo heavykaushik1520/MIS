@@ -53,6 +53,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
 						.requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
 						.requestMatchers("/api/groups/**").authenticated()  // added for groups
+						.requestMatchers("/api/brands/admin/**").hasAuthority("ROLE_ADMIN")
 						 // Admin Only Routes for Chain Operations
 			            .requestMatchers(HttpMethod.POST, "/api/chains/admin/create").hasAuthority("ROLE_ADMIN")
 			            .requestMatchers(HttpMethod.PUT, "/api/chains/admin/update/**").hasAuthority("ROLE_ADMIN")

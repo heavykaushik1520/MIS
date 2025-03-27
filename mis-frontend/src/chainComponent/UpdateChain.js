@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function UpdateChain() {
+  // eslint-disable-next-line no-unused-vars
   const [chainId, setChainId] = useState("");
   const [chain, setChain] = useState({
     companyName: "",
