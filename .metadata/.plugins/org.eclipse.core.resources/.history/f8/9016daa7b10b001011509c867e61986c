@@ -78,6 +78,19 @@ public class BrandService {
         return ResponseEntity.ok(responseWrapper);
     }
 	
+	public ResponseEntity<?> getBrandById(int brandId) {
+        Optional<Brand> brandOpt = brandRepository.findById(brandId);
+        if (brandOpt.isEmpty()) {
+            responseWrapper.setMessage("Brand not found!");
+            responseWrapper.setData(null);
+            return ResponseEntity.badRequest().body(responseWrapper);
+        }
+
+        responseWrapper.setMessage("Brand details retrieved!");
+        responseWrapper.setData(brandOpt.get());
+        return ResponseEntity.ok(responseWrapper);
+    }
+
 	public ResponseEntity<?> getAllBrands() {
 	    List<BrandDTO> brandDTOs = brandRepository.findAll()
 	        .stream()
@@ -89,23 +102,5 @@ public class BrandService {
 	    
 	    return ResponseEntity.ok(responseWrapper);
 	}
-
-
-	public ResponseEntity<?> getBrandById(int brandId) {
-	    Optional<Brand> brandOpt = brandRepository.findById(brandId);
-	    
-	    if (brandOpt.isEmpty()) {
-	        responseWrapper.setMessage("Brand not found!");
-	        responseWrapper.setData(null);
-	        return ResponseEntity.badRequest().body(responseWrapper);
-	    }
-
-	    BrandDTO brandDTO = new BrandDTO(brandOpt.get());
-
-	    responseWrapper.setMessage("Brand details retrieved!");
-	    responseWrapper.setData(brandDTO);
-	    return ResponseEntity.ok(responseWrapper);
-	}
-
 
 }

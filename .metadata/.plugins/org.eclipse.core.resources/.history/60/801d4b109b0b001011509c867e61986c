@@ -1,0 +1,5 @@
+package com.mis.dto;
+
+public class BrandDTO {
+
+}
