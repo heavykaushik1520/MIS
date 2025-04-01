@@ -17,6 +17,8 @@ import ChainList from './chainComponent/ChainList';
 import ChainDetails from './chainComponent/ChainDetails';
 import CreateChain from './chainComponent/CreateChain';
 import UpdateChain from './chainComponent/UpdateChain';
+import BrandManagement from './brandComponent/BrandManagement';
+import AddBrand from './brandComponent/AddBrand';
 
 
 
@@ -44,6 +46,10 @@ root.render(
       <Route path="/chains/:id" element={<ChainDetails />} />
       <Route path="/chains/admin/create" element={<CreateChain/>} />
       <Route path="/chains/admin/update/:chainId" element={<UpdateChain/>} />
+
+      <Route path="/brands" element={<BrandManagement />} />
+      <Route path="/chains/:id/add-brand" element={<AddBrand/>} />
+
     </Routes>
   </Router>
 );
