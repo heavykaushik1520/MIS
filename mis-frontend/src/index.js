@@ -19,6 +19,9 @@ import CreateChain from './chainComponent/CreateChain';
 import UpdateChain from './chainComponent/UpdateChain';
 import BrandManagement from './brandComponent/BrandManagement';
 import AddBrand from './brandComponent/AddBrand';
+import BrandDetails from './brandComponent/BrandDetails';
+import UpdateBrand from './brandComponent/UpdateBrand';
+import DeleteBrand from './brandComponent/DeleteBrand';
 
 
 
@@ -49,6 +52,10 @@ root.render(
 
       <Route path="/brands" element={<BrandManagement />} />
       <Route path="/chains/:id/add-brand" element={<AddBrand/>} />
+      <Route path='brands/:brandId' element={<BrandDetails/>}/>
+      <Route path='brands/update/:brandId' element={<UpdateBrand/>}/>
+      <Route path="/brands/delete/:brandId" element={<DeleteBrand/>} />
+
 
     </Routes>
   </Router>
