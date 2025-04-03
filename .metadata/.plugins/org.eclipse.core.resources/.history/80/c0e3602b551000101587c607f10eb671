@@ -1,0 +1,12 @@
+package com.mis.entity;
+
+public class Zone {
+	
+	private int id;
+	private String zoneName;
+	private Brand brand;
+	private boolean isActive = true;;
+	
+	
+
+}

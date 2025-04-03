@@ -224,7 +224,7 @@ function BrandManagement() {
             <strong>Name:</strong> {brandDetails.brandName}
           </p>
           <p>
-            <strong>Active:</strong> {brandDetails.active ? "Yes" : "No"}
+            <strong>Active:</strong> {brandDetails.isActive ? "Yes" : "No"}
           </p>
           {brandDetails.chain && (
             <>
