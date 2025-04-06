@@ -1,0 +1,13 @@
+package com.mis.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.mis.services.ZoneService;
+
+public class ZoneController {
+
+	@Autowired
+	private ZoneService zoneService;
+	
+	
+}

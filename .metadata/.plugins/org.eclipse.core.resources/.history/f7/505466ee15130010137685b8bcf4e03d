@@ -1,0 +1,25 @@
+package com.mis.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.mis.dto.ZoneRequestDTO;
+import com.mis.dto.ZoneResponseDTO;
+import com.mis.services.ZoneService;
+
+import jakarta.validation.Valid;
+
+public class ZoneController {
+
+	@Autowired
+	private ZoneService zoneService;
+	
+	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<ZoneResponseDTO> addZone(@Valid @RequestBody ZoneRequestDTO request) {
+		 return ResponseEntity.ok(zoneService.addZone(request));
+	}
+}

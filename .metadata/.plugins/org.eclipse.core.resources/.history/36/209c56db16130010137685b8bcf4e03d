@@ -60,7 +60,6 @@ public class SecurityConfiguration {
 			            .requestMatchers(HttpMethod.DELETE, "/api/chains/admin/delete/**").hasAuthority("ROLE_ADMIN")
 						  // Common Routes for Admin and Users
 			            .requestMatchers(HttpMethod.GET, "/api/chains/all", "/api/chains/**").authenticated()
-			         // ✅ ZONES Access Control
 			            .requestMatchers(HttpMethod.POST, "/api/zones").hasAuthority("ROLE_ADMIN")       // Add Zone
 			            .requestMatchers(HttpMethod.PUT, "/api/zones/**").hasAuthority("ROLE_ADMIN")      // Update Zone
 			            .requestMatchers(HttpMethod.DELETE, "/api/zones/**").hasAuthority("ROLE_ADMIN")   // Delete Zone
