@@ -1,0 +1,28 @@
+package com.mis.dto;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.Instant;
+
+@Getter
+@Setter
+public class ZoneResponseDTO {
+
+    private int zoneId;
+    private String zoneName;
+    private int brandId;
+    private boolean isActive;
+    private Instant createdAt;
+    private Instant updatedAt;
+
+    public ZoneResponseDTO(int zoneId, String zoneName, int brandId, boolean isActive, Instant createdAt, Instant updatedAt) {
+        this.zoneId = zoneId;
+        this.zoneName = zoneName;
+        this.brandId = brandId;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+}

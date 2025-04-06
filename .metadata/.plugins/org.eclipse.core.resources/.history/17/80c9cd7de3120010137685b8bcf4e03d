@@ -1,0 +1,80 @@
+package com.mis.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.dto.ZoneRequestDTO;
+import com.mis.dto.ZoneResponseDTO;
+import com.mis.entity.Brand;
+import com.mis.entity.Zone;
+import com.mis.repository.BrandRepository;
+import com.mis.repository.ZoneRepository;
+
+@Service
+public class ZoneService {
+
+	@Autowired
+	private ZoneRepository zoneRepository;
+
+	@Autowired
+	private BrandRepository brandRepository;
+
+	public ZoneResponseDTO addZone(ZoneRequestDTO request) {
+        Brand brand = brandRepository.findById(request.getBrandId()).orElseThrow(()->
+        new ResourceNotFoundException("Zone not found");
+        )
+        		
+
+        Zone zone = new Zone();
+        zone.setZoneName(request.getZoneName());
+        zone.setBrand(brand);
+        zone.setActive(request.isActive());
+
+        Zone saved = zoneRepository.save(zone);
+        return mapToDto(saved);
+    }
+
+	public List<ZoneResponseDTO> getAllZones() {
+		return zoneRepository.findByIsActiveTrue().stream().map(this::mapToDto).collect(Collectors.toList());
+	}
+
+	public ZoneResponseDTO getZoneById(int id) {
+		Zone zone = zoneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Zone not found"));
+		return mapToDto(zone);
+	}
+
+	public ZoneResponseDTO updateZone(int id, ZoneRequestDTO request) {
+		Zone zone = zoneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Zone not found"));
+
+		Brand brand = brandRepository.findById(request.getBrandId())
+				.orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+
+		zone.setZoneName(request.getZoneName());
+		zone.setBrand(brand);
+		zone.setActive(request.isActive());
+
+		Zone updated = zoneRepository.save(zone);
+		return mapToDto(updated);
+	}
+
+	public void softDeleteZone(int id) {
+		Zone zone = zoneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Zone not found"));
+
+		zone.setActive(false);
+		zoneRepository.save(zone);
+	}
+
+	private ZoneResponseDTO mapToDto(Zone zone) {
+        return new ZoneResponseDTO(
+                zone.getId(),
+                zone.getZoneName(),
+                zone.getBrand().getBrandId(),
+                zone.isActive(),
+                zone.getCreatedAt(),
+                zone.getUpdatedAt()
+        );
+    }
+}

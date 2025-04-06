@@ -1,0 +1,5 @@
+package com.mis.exception;
+
+public class ResourceNotFoundException {
+
+}
