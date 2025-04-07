@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.mis.dto.BrandDTO;
-import com.mis.dto.BrandResponseDTO;
 import com.mis.entity.*;
 import com.mis.repository.BrandRepository;
 import com.mis.repository.ChainRepository;
@@ -79,32 +78,17 @@ public class BrandService {
         return ResponseEntity.ok(responseWrapper);
     }
 	
-//	public ResponseEntity<?> getAllBrands() {
-//	    List<BrandDTO> brandDTOs = brandRepository.findAll()
-//	        .stream()
-//	        .map(BrandDTO::new)
-//	        .collect(Collectors.toList());
-//
-//	    responseWrapper.setMessage("All brands retrieved!");
-//	    responseWrapper.setData(brandDTOs);
-//	    
-//	    return ResponseEntity.ok(responseWrapper);
-//	}
-	
-	public List<BrandResponseDTO> getAllBrands() {
-	    List<Brand> brands = brandRepository.findAll()
+	public ResponseEntity<?> getAllBrands() {
+	    List<BrandDTO> brandDTOs = brandRepository.findAll()
 	        .stream()
-	        .filter(Brand::isActive) // Only return active brands
+	        .map(BrandDTO::new)
 	        .collect(Collectors.toList());
 
-	    return brands.stream().map(brand -> {
-	        BrandResponseDTO dto = new BrandResponseDTO();
-	        dto.setBrandId(brand.getBrandId());
-	        dto.setBrandName(brand.getBrandName());
-	        return dto;
-	    }).collect(Collectors.toList());
+	    responseWrapper.setMessage("All brands retrieved!");
+	    responseWrapper.setData(brandDTOs);
+	    
+	    return ResponseEntity.ok(responseWrapper);
 	}
-
 
 
 	public ResponseEntity<?> getBrandById(int brandId) {

@@ -1,7 +1,5 @@
 package com.mis.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.mis.dto.BrandResponseDTO;
 import com.mis.entity.Brand;
 import com.mis.services.BrandService;
 
@@ -45,14 +42,9 @@ public class BrandController {
         return brandService.getBrandById(id);
     }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<?> getAllBrands() {
-//        return brandService.getAllBrands();
-//    }
-    
-    @GetMapping
-    public ResponseEntity<List<BrandResponseDTO>> getAllBrands() {
-        return ResponseEntity.ok(brandService.getAllBrands());
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllBrands() {
+        return brandService.getAllBrands();
     }
 	
 	

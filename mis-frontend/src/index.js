@@ -22,6 +22,10 @@ import AddBrand from './brandComponent/AddBrand';
 import BrandDetails from './brandComponent/BrandDetails';
 import UpdateBrand from './brandComponent/UpdateBrand';
 import DeleteBrand from './brandComponent/DeleteBrand';
+import AddZone from './zoneComponent/AddZone';
+import AllZones from './zoneComponent/AllZones';
+import UpdateZone from './zoneComponent/UpdateZone';
+import SearchZoneById from './zoneComponent/SearchZoneById';
 
 
 
@@ -55,6 +59,12 @@ root.render(
       <Route path='brands/:brandId' element={<BrandDetails/>}/>
       <Route path='brands/update/:brandId' element={<UpdateBrand/>}/>
       <Route path="/brands/delete/:brandId" element={<DeleteBrand/>} />
+
+      {/* zone management routes */}
+      <Route path='/zone/create' element={<AddZone/>}  />
+      <Route path='/zone/all' element={<AllZones/>}/>
+      <Route path="/zones/update/:id" element={<UpdateZone/>} />
+      <Route path="/zone/search" element={<SearchZoneById/>}/>
 
 
     </Routes>

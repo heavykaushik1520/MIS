@@ -16,6 +16,5 @@ public class ZoneRequestDTO {
     @NotNull(message = "Brand ID cannot be null")
     private int brandId;
 
-    private boolean isActive = true;
-
+    private boolean isActive; 
 }

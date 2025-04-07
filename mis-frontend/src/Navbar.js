@@ -36,23 +36,23 @@ export default function Navbar() {
         {/* Group Operations Dropdown */}
         <div className="dropdown dropdown-hover">
           <label tabIndex={0} className="btn btn-outline btn-warning m-1">
-            Group Operations
+            Group
           </label>
           <ul
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to="/groups">View All Groups</Link>
+              <Link to="/groups">All Groups</Link>
             </li>
             <li>
-              <Link to="/groups/admin/create">Create Group</Link>
+              <Link to="/groups/admin/create">Create</Link>
             </li>
             <li>
-              <Link to="/groups/admin/update/:groupId">Update Group</Link>
+              <Link to="/groups/admin/update/:groupId">Update</Link>
             </li>
             <li>
-              <Link to="/groups/details">Group Details</Link>
+              <Link to="/groups/details"> Details</Link>
             </li>
           </ul>
         </div>
@@ -60,37 +60,56 @@ export default function Navbar() {
         {/* Chain Operations Dropdown */}
         <div className="dropdown dropdown-hover">
           <label tabIndex={0} className="btn btn-outline btn-warning m-1">
-            Chain Operations
+            Chain
           </label>
           <ul
             tabIndex={0}
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to="/chains">View All Chains</Link>
+              <Link to="/chains"> All Chains</Link>
             </li>
             <li>
-              <Link to="/chains/admin/create">Create Chain</Link>
+              <Link to="/chains/admin/create">Create </Link>
             </li>
             <li>
-              <Link to="/chains/admin/update/:chainId">Update Chain</Link>
+              <Link to="/chains/admin/update/:chainId">Update </Link>
             </li>
             <li>
-              <Link to="/chains/details">Chain Details</Link>
+              <Link to="/chains/details"> Details</Link>
             </li>
           </ul>
         </div>
 
         <div className="dropdown dropdown-hover">
           <label tabIndex={0} className="btn btn-outline btn-warning m-1">
-            Brand Operations
+            Brand
           </label>
           <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>
               <Link to="/brands">Manage Brands</Link>
             </li>
-            
-            
+          </ul>
+        </div>
+
+        {/* zone operations */}
+        <div className="dropdown dropdown-hover">
+          <label tabIndex={0} className="btn btn-outline btn-warning m-1">
+            Zone
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <Link to="/zone/create">Create </Link>
+            </li>
+            <li>
+              <Link to="/zone/all">Zones</Link>
+            </li>
+            <li>
+              <Link to="/zone/search">Search</Link>
+            </li>
           </ul>
         </div>
 
