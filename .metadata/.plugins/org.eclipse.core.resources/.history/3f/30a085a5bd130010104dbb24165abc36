@@ -22,10 +22,6 @@ public class ZoneService {
 
 	@Autowired
 	private BrandRepository brandRepository;
-	
-	public List<Zone> getZonesByBrandId(int brandId) {
-        return zoneRepository.findByBrandBrandIdAndIsActiveTrue(brandId); // or just `findByBrandId(...)`
-    }
 
 	public ZoneResponseDTO addZone(ZoneRequestDTO request) {
 		Brand brand = brandRepository.findById(request.getBrandId())

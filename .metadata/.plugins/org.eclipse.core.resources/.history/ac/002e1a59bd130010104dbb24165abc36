@@ -10,5 +10,4 @@ import com.mis.entity.Zone;
 @Repository
 public interface ZoneRepository extends JpaRepository<Zone, Integer> {
 	 List<Zone> findByIsActiveTrue();
-	 List<Zone> findByBrandBrandIdAndIsActiveTrue(int brandId);
 }

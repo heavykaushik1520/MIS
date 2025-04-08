@@ -40,7 +40,6 @@ public class Brand {
 	private Chain chain;
 	
 	@OneToMany(mappedBy = "brand")
-	@JsonIgnore
 	private List<Zone> zones;
 	
 	private boolean isActive = true;

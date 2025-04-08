@@ -61,7 +61,7 @@ public class ZoneController {
     }
 	
 	@GetMapping("/brand/{brandId}")
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Zone>> getZonesByBrandId(@PathVariable int brandId) {
         List<Zone> zones = zoneService.getZonesByBrandId(brandId);
         return ResponseEntity.ok(zones);
