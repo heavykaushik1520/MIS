@@ -26,6 +26,7 @@ import AddZone from './zoneComponent/AddZone';
 import AllZones from './zoneComponent/AllZones';
 import UpdateZone from './zoneComponent/UpdateZone';
 import SearchZoneById from './zoneComponent/SearchZoneById';
+import CreateEstimate from './estimateComponents/CreateEstimate';
 
 
 
@@ -51,22 +52,22 @@ root.render(
       {/* Chain Management Routes */}
       <Route path="/chains" element={<ChainList />} />
       <Route path="/chains/:id" element={<ChainDetails />} />
-      <Route path="/chains/admin/create" element={<CreateChain/>} />
-      <Route path="/chains/admin/update/:chainId" element={<UpdateChain/>} />
+      <Route path="/chains/admin/create" element={<CreateChain />} />
+      <Route path="/chains/admin/update/:chainId" element={<UpdateChain />} />
 
       <Route path="/brands" element={<BrandManagement />} />
-      <Route path="/chains/:id/add-brand" element={<AddBrand/>} />
-      <Route path='brands/:brandId' element={<BrandDetails/>}/>
-      <Route path='brands/update/:brandId' element={<UpdateBrand/>}/>
-      <Route path="/brands/delete/:brandId" element={<DeleteBrand/>} />
+      <Route path="/chains/:id/add-brand" element={<AddBrand />} />
+      <Route path="brands/:brandId" element={<BrandDetails />} />
+      <Route path="brands/update/:brandId" element={<UpdateBrand />} />
+      <Route path="/brands/delete/:brandId" element={<DeleteBrand />} />
 
       {/* zone management routes */}
-      <Route path='/zone/create' element={<AddZone/>}  />
-      <Route path='/zone/all' element={<AllZones/>}/>
-      <Route path="/zones/update/:id" element={<UpdateZone/>} />
-      <Route path="/zone/search" element={<SearchZoneById/>}/>
+      <Route path="/zone/create" element={<AddZone />} />
+      <Route path="/zone/all" element={<AllZones />} />
+      <Route path="/zones/update/:id" element={<UpdateZone />} />
+      <Route path="/zone/search" element={<SearchZoneById />} />
 
-
+      <Route path="/estimate/create" element={<CreateEstimate />} />
     </Routes>
   </Router>
 );

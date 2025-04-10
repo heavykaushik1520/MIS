@@ -1,0 +1,62 @@
+package com.mis.controller;
+
+import com.mis.dto.EstimateDTO;
+import com.mis.entity.Estimate;
+import com.mis.services.EstimateService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+
+
+@RestController
+@RequestMapping("/api/estimates")
+@CrossOrigin("*")
+public class EstimateController {
+	
+	 @Autowired
+	 private EstimateService estimateService;
+	 
+	 @PreAuthorize("hasRole('ADMIN')")
+	    @PostMapping
+	    public ResponseEntity<Estimate> createEstimate(@RequestBody EstimateDTO dto) {
+	        Estimate createdEstimate = estimateService.createEstimate(dto);
+	        return ResponseEntity.ok(createdEstimate);
+	    }
+
+	    // Get All Estimates - Admin Only
+	    @PreAuthorize("hasRole('ADMIN')")
+	    @GetMapping
+	    public ResponseEntity<List<Estimate>> getAllEstimates() {
+	        List<Estimate> estimates = estimateService.getAllEstimates();
+	        return ResponseEntity.ok(estimates);
+	    }
+
+	    // Get Estimate by ID - Admin Only
+	    @PreAuthorize("hasRole('ADMIN')")
+	    @GetMapping("/{id}")
+	    public ResponseEntity<Estimate> getEstimateById(@PathVariable int id) {
+	        Estimate estimate = estimateService.getEstimateById(id);
+	        return ResponseEntity.ok(estimate);
+	    }
+
+	    // Delete Estimate - Admin Only
+	    @PreAuthorize("hasRole('ADMIN')")
+	    @DeleteMapping("/{id}")
+	    public ResponseEntity<Void> deleteEstimate(@PathVariable int id) {
+	        estimateService.deleteEstimate(id);
+	        return ResponseEntity.noContent().build();
+	    }
+
+	    // Update Estimate - Admin Only
+	    @PreAuthorize("hasRole('ADMIN')")
+	    @PutMapping("/{id}")
+	    public ResponseEntity<Estimate> updateEstimate(@PathVariable int id, @RequestBody EstimateDTO dto) {
+	        Estimate updatedEstimate = estimateService.updateEstimate(id, dto);
+	        return ResponseEntity.ok(updatedEstimate);
+	    }
+
+}

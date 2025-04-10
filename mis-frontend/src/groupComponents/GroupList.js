@@ -139,7 +139,7 @@ const GroupList = () => {
             setError(null);
 
             try {
-                const response = await fetch('http://localhost:8080/api/groups/all', {
+                const response = await fetch('http://localhost:8080/api/groups', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 

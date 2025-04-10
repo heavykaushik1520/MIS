@@ -8,7 +8,7 @@ function ChainList() {
   useEffect(() => {
     const fetchChains = async () => {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8080/api/chains/all", {
+      const response = await fetch("http://localhost:8080/api/chains", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();

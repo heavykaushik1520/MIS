@@ -35,7 +35,7 @@ public class ChainController {
         return chainService.deleteChain(id);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Chain> getAllChains() {
         return chainService.getAllChains();
     }

@@ -21,7 +21,7 @@ export default function Login() {
 
         const token = await response.text();
         localStorage.setItem('token', token);
-        alert('Login Successful! Token stored.');
+        // alert('Login Successful! Token stored.');
         navigate('/')
     };
 

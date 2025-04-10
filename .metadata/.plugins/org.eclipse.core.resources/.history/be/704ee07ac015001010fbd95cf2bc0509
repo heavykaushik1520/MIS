@@ -1,0 +1,16 @@
+package com.mis.controller;
+
+import com.mis.dto.EstimateDTO;
+import com.mis.entity.Estimate;
+import com.mis.services.EstimateService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/estimates")
+@CrossOrigin("*")
+public class EstimateController {
+
+}

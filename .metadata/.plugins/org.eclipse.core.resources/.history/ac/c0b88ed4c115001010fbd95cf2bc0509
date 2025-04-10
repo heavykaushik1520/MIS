@@ -66,15 +66,8 @@ public class SecurityConfiguration {
 			            .requestMatchers(HttpMethod.PUT, "/api/zones/**").hasAuthority("ROLE_ADMIN")      // Update Zone
 			            .requestMatchers(HttpMethod.DELETE, "/api/zones/**").hasAuthority("ROLE_ADMIN")   // Delete Zone
 //			            .requestMatchers(HttpMethod.GET, "/api/zones/brand/**").hasAuthority("ROLE_ADMIN")
-			            .requestMatchers(HttpMethod.GET, "/api/zones/**").authenticated()
-			            
-			            //estimate access control
-			            .requestMatchers(HttpMethod.GET , "/api/estimates/**").hasAuthority("ROLE_ADMIN")
-			            .requestMatchers(HttpMethod.PUT , "/api/estimates/**").hasAuthority("ROLE_ADMIN")
-			            .requestMatchers(HttpMethod.DELETE , "/api/estimates/**").hasAuthority("ROLE_ADMIN")
-			            .requestMatchers(HttpMethod.POST , "/api/estimates").hasAuthority("ROLE_ADMIN")
-			            .requestMatchers(HttpMethod.GET , "/api/estimates").hasAuthority("ROLE_ADMIN")
-			            .anyRequest().authenticated())
+			            .requestMatchers(HttpMethod.GET, "/api/zones/**").authenticated()  
+						.anyRequest().authenticated())
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
