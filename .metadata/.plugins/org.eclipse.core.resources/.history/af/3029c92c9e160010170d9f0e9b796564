@@ -42,45 +42,24 @@ public class BrandService {
         return ResponseEntity.ok(responseWrapper);
 	}
 	
-//	public ResponseEntity<?> updateBrand(int brandId , Brand updatedBrand){
-//		Optional<Brand> brandOpt = brandRepository.findById(brandId);
-//		if (brandOpt.isEmpty()) {
-//            responseWrapper.setMessage("Brand not found!");
-//            responseWrapper.setData(null);
-//            return ResponseEntity.badRequest().body(responseWrapper);
-//        }
-//		
-//		Brand brand = brandOpt.get();
-//		brand.setBrandName(updatedBrand.getBrandName());
-//        brand.setActive(updatedBrand.isActive());
-//        brand.setUpdatedAt(updatedBrand.getUpdatedAt());
-//        
-//        Brand savedBrand = brandRepository.save(brand);
-//        responseWrapper.setMessage("Brand updated successfully!");
-//        responseWrapper.setData(savedBrand);
-//        return ResponseEntity.ok(responseWrapper);
-//	}
-	
 	public ResponseEntity<?> updateBrand(int brandId , Brand updatedBrand){
-	    Optional<Brand> brandOpt = brandRepository.findById(brandId);
-	    if (brandOpt.isEmpty()) {
-	        responseWrapper.setMessage("Brand not found!");
-	        responseWrapper.setData(null);
-	        return ResponseEntity.badRequest().body(responseWrapper);
-	    }
-
-	    Brand brand = brandOpt.get();
-	    brand.setBrandName(updatedBrand.getBrandName());
-	    brand.setActive(updatedBrand.isActive());
-	    // Do NOT set updatedAt manually if you're using @LastModifiedDate
-
-	    Brand savedBrand = brandRepository.save(brand);
-
-	    responseWrapper.setMessage("Brand updated successfully!");
-	    responseWrapper.setData(savedBrand);
-	    return ResponseEntity.ok(responseWrapper);
+		Optional<Brand> brandOpt = brandRepository.findById(brandId);
+		if (brandOpt.isEmpty()) {
+            responseWrapper.setMessage("Brand not found!");
+            responseWrapper.setData(null);
+            return ResponseEntity.badRequest().body(responseWrapper);
+        }
+		
+		Brand brand = brandOpt.get();
+		brand.setBrandName(updatedBrand.getBrandName());
+        brand.setActive(updatedBrand.isActive());
+        brand.setUpdatedAt(updatedBrand.getUpdatedAt());
+        
+        Brand savedBrand = brandRepository.save(brand);
+        responseWrapper.setMessage("Brand updated successfully!");
+        responseWrapper.setData(savedBrand);
+        return ResponseEntity.ok(responseWrapper);
 	}
-
 	
 	public ResponseEntity<?> deleteBrand(int brandId) {
         Optional<Brand> brandOpt = brandRepository.findById(brandId);
