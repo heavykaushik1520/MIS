@@ -1,0 +1,5 @@
+package com.mis.mapper;
+
+public class InvoiceMapper {
+
+}

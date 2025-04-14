@@ -29,6 +29,8 @@ import SearchZoneById from './zoneComponent/SearchZoneById';
 import CreateEstimate from './estimateComponents/CreateEstimate';
 import EstimateList from './estimateComponents/EstimateList';
 import EstimateDetails from './estimateComponents/EstimateDetails';
+import SearchEstimateById from './estimateComponents/SearchEstimateById';
+import UpdateEstimate from './estimateComponents/UpdateEstimate';
 
 
 
@@ -71,7 +73,9 @@ root.render(
 
       <Route path="/estimate/create" element={<CreateEstimate />} />
       <Route path="/estimate/all" element={<EstimateList />} />
-      <Route path="/estimate/:id" element={<EstimateDetails />} />
+      <Route path="/estimate/search" element={<SearchEstimateById />} />
+      <Route path="/estimate/update/:id" element={<UpdateEstimate />} />
+
 
     </Routes>
   </Router>

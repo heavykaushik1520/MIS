@@ -19,7 +19,7 @@ public class EstimateController {
 	@Autowired
 	private EstimateService estimateService;
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<Estimate> createEstimate(@RequestBody EstimateDTO dto) {
 		Estimate createdEstimate = estimateService.createEstimate(dto);
@@ -27,7 +27,7 @@ public class EstimateController {
 	}
 
 	// Get All Estimates - Admin Only
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<Estimate>> getAllEstimates() {
 		List<Estimate> estimates = estimateService.getAllEstimates();
@@ -43,7 +43,7 @@ public class EstimateController {
 	}
 
 	// Delete Estimate - Admin Only
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteEstimate(@PathVariable int id) {
 		estimateService.deleteEstimate(id);
@@ -51,7 +51,7 @@ public class EstimateController {
 	}
 
 	// Update Estimate - Admin Only
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Estimate> updateEstimate(@PathVariable int id, @RequestBody EstimateDTO dto) {
 		Estimate updatedEstimate = estimateService.updateEstimate(id, dto);

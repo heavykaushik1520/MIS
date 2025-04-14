@@ -1,0 +1,61 @@
+package com.mis.entity;
+
+
+
+import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
+import java.util.Date;
+
+@Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class Estimate {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int estimatedId;
+
+    @OneToOne
+    @JoinColumn(name = "chain_id", nullable = false)
+    private Chain chain;
+
+    @OneToOne
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
+
+    @OneToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
+
+    @OneToOne
+    @JoinColumn(name = "zone_id", nullable = false)
+    private Zone zone;
+
+    @Column(length = 100)
+    private String service;
+
+    private int quantity;
+
+    private double costPerUnit;
+
+    private double totalCost;
+    
+    @OneToOne(mappedBy = "estimate")
+    private Invoice invoice;
+
+    private Date deliveryDate;
+
+    @Column(length = 100)
+    private String deliveryDetails;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+}

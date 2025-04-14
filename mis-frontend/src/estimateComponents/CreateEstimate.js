@@ -22,6 +22,7 @@ const CreateEstimate = () => {
 
   const fetchEntities = async (url, setter, label) => {
     const token = localStorage.getItem("token");
+    console.log("Token used in request:", token);
     try {
       const res = await fetch(url, {
         headers: {

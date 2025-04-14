@@ -1,0 +1,62 @@
+package com.mis.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mis.dto.InvoiceRequestDto;
+import com.mis.dto.InvoiceResponseDto;
+import com.mis.services.*;
+
+@RestController
+@RequestMapping("/api/invoices")
+public class InvoiceController {
+	
+	@Autowired
+	private  InvoiceService invoiceService;
+	
+	
+	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<InvoiceResponseDto> createInvoice(@RequestBody InvoiceRequestDto dto) {
+        InvoiceResponseDto createdInvoice = invoiceService.createInvoice(dto);
+        return ResponseEntity.ok(createdInvoice);
+    }
+	
+	
+	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<List<InvoiceResponseDto>> getAllInvoices() {
+        return ResponseEntity.ok(invoiceService.getAllInvoices());
+    }
+
+    // ✅ Get Invoice By ID
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<InvoiceResponseDto> getInvoiceById(@PathVariable int id) {
+        return ResponseEntity.ok(invoiceService.getInvoiceById(id));
+    }
+
+    // ✅ Update Invoice (e.g., change email or balance)
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<InvoiceResponseDto> updateInvoice(@PathVariable int id, @RequestBody InvoiceRequestDto dto) {
+        return ResponseEntity.ok(invoiceService.updateInvoice(id, dto));
+    }
+
+    // ✅ Delete Invoice
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteInvoice(@PathVariable int id) {
+        invoiceService.deleteInvoice(id);
+        return ResponseEntity.ok("Invoice deleted successfully");
+    }
+
+}

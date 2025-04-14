@@ -1,0 +1,14 @@
+package com.mis.services;
+
+import java.util.List;
+
+import com.mis.dto.InvoiceRequestDto;
+import com.mis.dto.InvoiceResponseDto;
+
+public interface InvoiceService {
+	InvoiceResponseDto createInvoice(InvoiceRequestDto dto);
+    InvoiceResponseDto getInvoiceById(Long id);
+    List<InvoiceResponseDto> getAllInvoices();
+    void deleteInvoice(Long id);
+    InvoiceResponseDto updateInvoice(Long id, InvoiceRequestDto dto);
+}

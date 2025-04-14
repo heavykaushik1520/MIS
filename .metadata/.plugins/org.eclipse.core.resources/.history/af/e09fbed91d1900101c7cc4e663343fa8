@@ -1,0 +1,83 @@
+package com.mis.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mis.dto.InvoiceRequestDto;
+import com.mis.dto.InvoiceResponseDto;
+import com.mis.entity.Estimate;
+import com.mis.entity.Invoice;
+import com.mis.exception.ResourceNotFoundException;
+import com.mis.repository.EstimateRepository;
+import com.mis.repository.InvoiceRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+public class InvoiceServiceImpl implements InvoiceService {
+	
+	@Autowired
+	private final InvoiceRepository invoiceRepo;
+	
+	@Autowired
+    private final EstimateRepository estimateRepo;
+    
+    @Autowired
+    private final InvoiceMapper invoiceMapper; // You can use MapStruct or manual mapping
+    
+   
+
+    @Override
+    public InvoiceResponseDto createInvoice(InvoiceRequestDto dto) {
+        Estimate estimate = estimateRepo.findById(dto.getEstimatedId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estimate not found"));
+
+        Invoice invoice = new Invoice();
+        invoice.setInvoiceNo(generateInvoiceNumber());
+        invoice.setEstimate(estimate);
+        invoice.setChainId(estimate.getChain().getChainId());
+        invoice.setServiceDetails(estimate.getService());
+        invoice.setQty(estimate.getQuantity());
+        invoice.setCostPerQty(estimate.getCostPerUnit());
+        invoice.setAmountPayable(estimate.getTotalCost());
+        invoice.setBalance(dto.getBalance());
+        invoice.setDateOfPayment(dto.getDateOfPayment());
+        invoice.setDateOfService(estimate.getDeliveryDate());
+        invoice.setDeliveryDetails(estimate.getDeliveryDetails());
+        invoice.setEmailId(dto.getEmailId());
+
+        Invoice saved = invoiceRepo.save(invoice);
+        return invoiceMapper.toDto(saved);
+    }
+
+    private Integer generateInvoiceNumber() {
+        return (int)(Math.random() * 9000) + 1000;
+    }
+
+	@Override
+	public InvoiceResponseDto getInvoiceById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<InvoiceResponseDto> getAllInvoices() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteInvoice(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public InvoiceResponseDto updateInvoice(int id, InvoiceRequestDto dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

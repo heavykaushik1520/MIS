@@ -1,0 +1,25 @@
+package com.mis.dto;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class InvoiceResponseDto {
+	 private int id;
+	    private Integer invoiceNo;
+	    private int estimatedId;
+	    private Integer chainId;
+	    private String serviceDetails;
+	    private Integer qty;
+	    private Float costPerQty;
+	    private Float amountPayable;
+	    private Float balance;
+	    private LocalDateTime dateOfPayment;
+	    private LocalDate dateOfService;
+	    private String deliveryDetails;
+	    private String emailId;
+}

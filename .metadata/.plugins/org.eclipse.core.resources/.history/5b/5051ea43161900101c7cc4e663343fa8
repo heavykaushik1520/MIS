@@ -1,0 +1,42 @@
+package com.mis.services;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class InvoiceServiceImpl implements InvoiceService {
+	
+	private final InvoiceRepository invoiceRepo;
+    private final EstimateRepository estimateRepo;
+    private final InvoiceMapper invoiceMapper; // You can use MapStruct or manual mapping
+
+    @Override
+    public InvoiceResponseDto createInvoice(InvoiceRequestDto dto) {
+        Estimate estimate = estimateRepo.findById(dto.getEstimatedId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estimate not found"));
+
+        Invoice invoice = new Invoice();
+        invoice.setInvoiceNo(generateInvoiceNumber());
+        invoice.setEstimate(estimate);
+        invoice.setChainId(estimate.getChain().getChainId());
+        invoice.setServiceDetails(estimate.getService());
+        invoice.setQty(estimate.getQuantity());
+        invoice.setCostPerQty(estimate.getCostPerUnit());
+        invoice.setAmountPayable(estimate.getTotalCost());
+        invoice.setBalance(dto.getBalance());
+        invoice.setDateOfPayment(dto.getDateOfPayment());
+        invoice.setDateOfService(estimate.getDeliveryDate());
+        invoice.setDeliveryDetails(estimate.getDeliveryDetails());
+        invoice.setEmailId(dto.getEmailId());
+
+        Invoice saved = invoiceRepo.save(invoice);
+        return invoiceMapper.toDto(saved);
+    }
+
+    private Integer generateInvoiceNumber() {
+        return (int)(Math.random() * 9000) + 1000;
+    }
+
+}

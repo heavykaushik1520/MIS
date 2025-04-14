@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const EstimateList = () => {
   const [estimates, setEstimates] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token"); // or sessionStorage.getItem if you used that
-  
+
     fetch("http://localhost:8080/api/estimates", {
       method: "GET",
       headers: {
@@ -27,7 +29,6 @@ const EstimateList = () => {
         console.error("Error fetching estimates:", err);
       });
   }, []);
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
@@ -61,12 +62,11 @@ const EstimateList = () => {
                 <span className="font-bold">Service:</span> {estimate.service}
               </p>
               <p>
-                <span className="font-bold">Quantity:</span>{" "}
-                {estimate.quantity}
+                <span className="font-bold">Quantity:</span> {estimate.quantity}
               </p>
               <p>
-                <span className="font-bold">Cost/Unit:</span>{" "}
-                ₹{estimate.costPerUnit}
+                <span className="font-bold">Cost/Unit:</span> ₹
+                {estimate.costPerUnit}
               </p>
               <p>
                 <span className="font-bold">Total Cost:</span>{" "}
@@ -82,6 +82,12 @@ const EstimateList = () => {
                 <span className="font-bold">Details:</span>{" "}
                 {estimate.deliveryDetails}
               </p>
+              <Link
+                to={`/estimate/update/${estimate.estimatedId}`}
+                className="px-3 py-1 text-sm rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 text-white shadow-md transition-all duration-300 ease-in-out"
+              >
+                ✏️ Edit
+              </Link>
 
               <div className="mt-4">
                 <button className="btn btn-outline btn-accent w-full">

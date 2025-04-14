@@ -74,6 +74,9 @@ public class SecurityConfiguration {
 			            .requestMatchers(HttpMethod.DELETE , "/api/estimates/**").hasAuthority("ROLE_ADMIN")
 			            .requestMatchers(HttpMethod.POST , "/api/estimates").hasAuthority("ROLE_ADMIN")
 			            .requestMatchers(HttpMethod.GET , "/api/estimates").hasAuthority("ROLE_ADMIN")
+			            
+			            //invoice access control
+			            .requestMatchers(HttpMethod.POST, "/api/invoices").hasAuthority("ROLE_ADMIN")
 			            .anyRequest().authenticated())
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())

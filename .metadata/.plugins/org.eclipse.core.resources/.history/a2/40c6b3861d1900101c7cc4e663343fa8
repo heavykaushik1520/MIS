@@ -1,0 +1,22 @@
+package com.mis.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.mis.dto.InvoiceRequestDto;
+import com.mis.dto.InvoiceResponseDto;
+import com.mis.services.*;
+
+public class InvoiceController {
+	
+	private  InvoiceService invoiceService;
+	
+	@PostMapping
+    public ResponseEntity<InvoiceResponseDto> createInvoice(@RequestBody InvoiceRequestDto dto) {
+        InvoiceResponseDto createdInvoice = invoiceService.createInvoice(dto);
+        return ResponseEntity.ok(createdInvoice);
+    }
+
+}

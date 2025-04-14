@@ -129,7 +129,7 @@ export default function Navbar() {
             <Link to="/estimate/all">Estimate</Link>
           </li>
           <li>
-            <Link to="/zone/search">Search</Link>
+            <Link to="/estimate/search">Search</Link>
           </li>
         </ul>
       </div>

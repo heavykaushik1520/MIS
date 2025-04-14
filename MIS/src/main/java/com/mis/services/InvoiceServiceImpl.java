@@ -1,0 +1,111 @@
+package com.mis.services;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mis.dto.InvoiceRequestDto;
+import com.mis.dto.InvoiceResponseDto;
+import com.mis.entity.Estimate;
+import com.mis.entity.Invoice;
+import com.mis.exception.ResourceNotFoundException;
+import com.mis.repository.EstimateRepository;
+import com.mis.repository.InvoiceRepository;
+import com.mis.utils.InvoicePdfGenerator;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+public class InvoiceServiceImpl implements InvoiceService {
+	
+	@Autowired
+	private  InvoiceRepository invoiceRepo;
+	
+	@Autowired
+    private  EstimateRepository estimateRepo;
+    
+    @Autowired
+    private  InvoiceMapper invoiceMapper; // You can use MapStruct or manual mapping
+    
+   
+
+    @Override
+    public InvoiceResponseDto createInvoice(InvoiceRequestDto dto) {
+        Estimate estimate = estimateRepo.findById(dto.getEstimatedId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estimate not found"));
+
+        Invoice invoice = new Invoice();
+        invoice.setInvoiceNo(generateInvoiceNumber());
+        invoice.setEstimate(estimate);
+        invoice.setChainId(estimate.getChain().getChainId());
+        invoice.setServiceDetails(estimate.getService());
+        invoice.setQty(estimate.getQuantity());
+        invoice.setCostPerQty(estimate.getCostPerUnit());
+        invoice.setAmountPayable(estimate.getTotalCost());
+        invoice.setBalance(dto.getBalance());
+        invoice.setDateOfPayment(dto.getDateOfPayment());
+        invoice.setDateOfService(estimate.getDeliveryDate());
+        invoice.setDeliveryDetails(estimate.getDeliveryDetails());
+        invoice.setEmailId(dto.getEmailId());
+
+        Invoice saved = invoiceRepo.save(invoice);
+        return invoiceMapper.toDto(saved);
+    }
+
+    private Integer generateInvoiceNumber() {
+        return (int)(Math.random() * 9000) + 1000;
+    }
+
+    @Override
+    public InvoiceResponseDto getInvoiceById(int id) {
+        Invoice invoice = invoiceRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found with ID: " + id));
+        return invoiceMapper.toDto(invoice);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InvoiceResponseDto> getAllInvoices() {
+        List<Invoice> invoices = invoiceRepo.findAll();
+        return invoices.stream()
+                .map(invoiceMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public void deleteInvoice(int id) {
+        Invoice invoice = invoiceRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found with ID: " + id));
+        invoiceRepo.delete(invoice);
+    }
+
+    @Override
+    public InvoiceResponseDto updateInvoice(int id, InvoiceRequestDto dto) {
+        Invoice invoice = invoiceRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found with ID: " + id));
+
+        // Only editable fields (e.g., balance, dateOfPayment, emailId)
+        invoice.setBalance(dto.getBalance());
+        invoice.setDateOfPayment(dto.getDateOfPayment());
+        invoice.setEmailId(dto.getEmailId());
+
+        Invoice updated = invoiceRepo.save(invoice);
+        return invoiceMapper.toDto(updated);
+    }
+    
+    @Autowired
+    private InvoicePdfGenerator pdfGenerator;
+
+    @Override
+    public ByteArrayInputStream generatePdfForInvoice(int invoiceId) {
+        Invoice invoice = invoiceRepo.findById(invoiceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found with ID: " + invoiceId));
+        return pdfGenerator.generateInvoicePdf(invoice);
+    }
+
+
+}

@@ -1,0 +1,75 @@
+package com.mis.entity;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import lombok.Data;
+
+@Entity
+@Data
+@EntityListeners(AuditingEntityListener.class)
+public class Invoice {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(unique = true)
+    @NotNull(message = "Invoice number cannot be null")
+    @Min(value = 1000, message = "Invoice number must be a 4-digit number")
+    @Max(value = 9999, message = "Invoice number must be a 4-digit number")
+    private Integer invoiceNo;
+
+    @OneToOne
+    @JoinColumn(name = "estimated_id", nullable = false)
+    @NotNull(message = "Estimate reference is required")
+    private Estimate estimate;
+
+    @NotNull(message = "Chain ID is required")
+    private Integer chainId;
+
+    @NotBlank(message = "Service details cannot be blank")
+    private String serviceDetails;
+
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be at least 1")
+    private Integer qty;
+
+    @NotNull(message = "Cost per quantity is required")
+    @PositiveOrZero(message = "Cost per quantity cannot be negative")
+    private double costPerQty;
+
+    @NotNull(message = "Amount payable is required")
+    @PositiveOrZero(message = "Amount payable cannot be negative")
+    private double amountPayable;
+
+    @NotNull(message = "Balance is required")
+    @PositiveOrZero(message = "Balance cannot be negative")
+    private double balance;
+
+    private LocalDateTime dateOfPayment;
+
+    @PastOrPresent(message = "Date of service can't be in the future")
+    private Date dateOfService;
+
+    @NotBlank(message = "Delivery details cannot be blank")
+    private String deliveryDetails;
+
+    @Email(message = "Email should be valid")
+    private String emailId;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
+}

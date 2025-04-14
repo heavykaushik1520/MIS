@@ -1,0 +1,12 @@
+package com.mis.dto;
+
+import java.time.LocalDateTime;
+
+public class InvoiceRequestDto {
+
+    private Long estimatedId;
+    private Float balance;
+    private LocalDateTime dateOfPayment;
+    private String emailId;
+}
+

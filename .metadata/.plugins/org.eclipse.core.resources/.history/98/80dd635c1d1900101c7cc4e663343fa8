@@ -1,0 +1,9 @@
+package com.mis.controller;
+
+import com.mis.services.*;
+
+public class InvoiceController {
+	
+	private final InvoiceService invoiceService;
+
+}

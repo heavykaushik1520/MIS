@@ -1,0 +1,12 @@
+package com.mis.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.mis.services.*;
+
+public class InvoiceController {
+	
+	@Autowired
+	private final InvoiceService invoiceService;
+
+}
