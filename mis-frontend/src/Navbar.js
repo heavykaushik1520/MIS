@@ -133,6 +133,28 @@ export default function Navbar() {
           </li>
         </ul>
       </div>
+
+      <div className="dropdown dropdown-hover">
+        <label tabIndex={0} className="btn btn-outline btn-warning m-1">
+          Invoice
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li>
+            <Link to="/invoice/create">Create </Link>
+          </li>
+          <li>
+            <Link to="/invoice/all">Invoices</Link>
+          </li>
+          <li>
+            <Link to="/invoice/search">Search</Link>
+          </li>
+        </ul>
+      </div>
+
+
       <Link to="/login" className="btn btn-outline btn-success">
         Login
       </Link>

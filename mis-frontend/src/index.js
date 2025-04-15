@@ -28,9 +28,11 @@ import UpdateZone from './zoneComponent/UpdateZone';
 import SearchZoneById from './zoneComponent/SearchZoneById';
 import CreateEstimate from './estimateComponents/CreateEstimate';
 import EstimateList from './estimateComponents/EstimateList';
-import EstimateDetails from './estimateComponents/EstimateDetails';
 import SearchEstimateById from './estimateComponents/SearchEstimateById';
 import UpdateEstimate from './estimateComponents/UpdateEstimate';
+import CreateInvoice from './invoiceComponent/CreateInvoice';
+import InvoiceList from './invoiceComponent/InvoiceList';
+import SearchInvoiceById from './invoiceComponent/SearchInvoiceById';
 
 
 
@@ -75,6 +77,13 @@ root.render(
       <Route path="/estimate/all" element={<EstimateList />} />
       <Route path="/estimate/search" element={<SearchEstimateById />} />
       <Route path="/estimate/update/:id" element={<UpdateEstimate />} />
+
+
+      <Route path="/invoice/create" element={<CreateInvoice />} />
+      <Route path='/invoice/all' element={<InvoiceList/>}/>
+      <Route path='/invoice/search' element={<SearchInvoiceById />} />
+      
+     
 
 
     </Routes>
